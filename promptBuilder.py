@@ -8,9 +8,9 @@ import os
 
 load_dotenv()
 
-embeddings = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
+embeddings = OpenAIEmbeddings(openai_api_key=st.secrets["OPENAI_API_KEY"])
 vectorstore = PineconeVectorStore(
-    index_name=os.environ["INDEX_NAME"], embedding=embeddings
+    index_name=st.secrets["INDEX_NAME"], embedding=embeddings
 )
 
 
