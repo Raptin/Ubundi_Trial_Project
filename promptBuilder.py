@@ -48,12 +48,10 @@ prompt_template = PromptTemplate(
 )
 
 
-# Initialize chat history and messages
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-
 def get_response(prompt, selected_mode):
+    # Initialize chat history and messages
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
     # First we get the relevant data from the vector store
     docs = retriever.invoke(prompt)
     context = "\n".join([doc.page_content for doc in docs])
