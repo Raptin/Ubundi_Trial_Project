@@ -9,7 +9,6 @@ from embedding.ingestion import process_uploaded_file
 
 load_dotenv()
 
-
 st.title("Ruan's AI")
 
 
@@ -29,8 +28,12 @@ if "messages" not in st.session_state:
 
 # display chat history
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
+    if message["role"] == "assistant":
+        with st.chat_message("assistant", avatar="img/Headshot.jpg"):
+            st.write(message["content"])
+    else:
+        with st.chat_message(message["role"]):
+            st.write(message["content"])
 
 
 # user input
@@ -42,7 +45,7 @@ if prompt := st.chat_input("Say something"):
 
     result = get_response(prompt, selected_mode)
     st.session_state.messages.append({"role": "assistant", "content": result.content})
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar="img/Headshot.jpg"):
         st.write(result.content)
 
 # File upload functionality in sidebar
