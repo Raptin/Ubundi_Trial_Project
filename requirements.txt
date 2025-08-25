@@ -5,3 +5,7 @@ langchain-pinecone
 langchain-openai
 python-dotenv
 pypdf
+unstructured
+python-docx
+pandas
+langchain-community

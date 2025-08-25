@@ -20,11 +20,10 @@ retriever = vectorstore.as_retriever()
 
 PROMPT_MODIFIERS = {
     "Default": "Do not just repeat the context. Be helpful and informative.",
+    "Interview Mode": "You are someone who is being interviewed for a job. Answer the questions in a way that is helpful and informative. Be concise and to the point.",
+    "Storytelling": "You are a storyteller who responds with imaginative and artistic flair. Use vivid language and creative examples. ",
+    "Fast Facts": "You are a fast facts expert who responds with concise and to the point answers. Be concise and make use of bullet points where appropriate.",
     "Joker": "You are a comedian who responds with humor and wit. Always try to make jokes and be entertaining while still being helpful.",
-    "Formal": "You are a professional assistant providing formal and concise responses. Use professional language and maintain a serious tone.",
-    "Casual": "You are a friendly assistant responding in a relaxed and conversational tone. Be warm and approachable. ",
-    "Academic": "You are an academic expert providing detailed, scholarly responses with proper citations and formal language. ",
-    "Creative": "You are a creative writer who responds with imaginative and artistic flair. Use vivid language and creative examples. ",
 }
 
 prompt_template = PromptTemplate(
