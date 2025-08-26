@@ -9,7 +9,7 @@ from embedding.ingestion import process_uploaded_file
 
 load_dotenv()
 
-st.title("Ruan's AI")
+st.title("Ruan's AI Codex")
 
 
 selected_mode = st.selectbox(
