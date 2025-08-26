@@ -2,7 +2,7 @@ import streamlit as st
 import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
-# from langchain_pinecone import PineconeVectorStore
+from langchain_pinecone import PineconeVectorStore
 from langchain.chains import ConversationalRetrievalChain
 from dotenv import load_dotenv
 from promptBuilder import get_response, PROMPT_MODIFIERS
