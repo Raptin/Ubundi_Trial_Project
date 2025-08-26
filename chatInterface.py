@@ -26,6 +26,9 @@ if selected_mode != "Default":
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "files" not in st.session_state:
+    st.session_state.files = []
+
 # display chat history
 for message in st.session_state.messages:
     if message["role"] == "assistant":
@@ -51,38 +54,42 @@ if prompt := st.chat_input("Say something"):
 # File upload functionality in sidebar
 with st.sidebar:
     st.header("📁 Document Upload")
+
+    # Allow file upload at any time, but clear it after upload
     uploaded_file = st.file_uploader(
         "Upload a document to chat about",
         type=["pdf", "txt", "csv", "doc", "docx"],
         help="Upload a document to add to the knowledge base for this conversation",
+        key="file_uploader",  # Add a unique key to control the widget
     )
 
-if uploaded_file is not None:
-    st.success(f"File uploaded: {uploaded_file.name}")
+    if uploaded_file is not None and uploaded_file not in st.session_state.files:
+        st.session_state.files.append(uploaded_file)
+        st.success(f"File uploaded: {uploaded_file.name}")
 
-    # Save uploaded file temporarily
-    temp_dir = "temp_uploads"
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
+        # Save uploaded file temporarily
+        temp_dir = "temp_uploads"
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir)
 
-    temp_file_path = os.path.join(temp_dir, uploaded_file.name)
-    with open(temp_file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
+        temp_file_path = os.path.join(temp_dir, uploaded_file.name)
+        with open(temp_file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
 
-    # Process the uploaded file (you can expand this based on your needs)
-    with st.spinner("Processing uploaded document..."):
-        try:
-            # Here you could integrate with your document loading functionality
-            process_uploaded_file(temp_file_path)
-            # from ingestion.py if needed for real-time processing
-            st.info(
-                "Document uploaded successfully! You can now ask questions about it."
-            )
+        # Process the uploaded file (you can expand this based on your needs)
+        with st.spinner("Processing uploaded document..."):
+            try:
+                # Here you could integrate with your document loading functionality
+                process_uploaded_file(temp_file_path)
+                # from ingestion.py if needed for real-time processing
+                st.info(
+                    "Document uploaded successfully! You can now ask questions about it."
+                )
 
-            # Clean up temp file
-            os.remove(temp_file_path)
-
-        except Exception as e:
-            st.error(f"Error processing file: {str(e)}")
-            if os.path.exists(temp_file_path):
+                # Clean up temp file
                 os.remove(temp_file_path)
+
+            except Exception as e:
+                st.error(f"Error processing file: {str(e)}")
+                if os.path.exists(temp_file_path):
+                    os.remove(temp_file_path)
